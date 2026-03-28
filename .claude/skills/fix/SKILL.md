@@ -59,7 +59,6 @@ Apply improvements to the Claude Code configuration at `$ARGUMENTS`.
 
 ## Important
 - ALWAYS show the plan and ask for confirmation before modifying anything
-- Create backups of all files before modification
 - Apply one phase at a time — don't rush through all phases
 - If a change fails, stop and report — don't continue blindly
-- The rewriter agent handles the actual file modifications
+- The `rewriter` agent handles ALL file modifications including backups — explicitly instruct it to create backups in `.claude-audit-backup/[timestamp]/` before each change

@@ -1,10 +1,11 @@
 ---
 name: compare
 description: Compare the Claude Code configuration of two projects side-by-side. Use when someone says "compare projects", "diff configs", "compare structures", or wants to see differences between two project setups.
-argument-hint: <project-path-1> <project-path-2>
+argument-hint: "<project-path-1>" "<project-path-2>"
 allowed-tools: Read, Grep, Glob, Agent
 disable-model-invocation: true
 context: fork
+effort: high
 ---
 
 # Compare Projects
@@ -12,7 +13,7 @@ context: fork
 Compare the Claude Code configuration of two projects side-by-side.
 
 ## Input Parsing
-- `$ARGUMENTS` should contain two paths separated by space
+- `$ARGUMENTS` contains two project paths. Paths may contain spaces — parse carefully by asking the user to confirm both paths if ambiguous.
 - If only one path provided, ask the user for the second path
 
 ## Steps

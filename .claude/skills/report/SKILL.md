@@ -5,6 +5,7 @@ argument-hint: <target-project-path> [--output path/to/report.md]
 allowed-tools: Read, Grep, Glob, Write
 disable-model-invocation: true
 context: fork
+effort: high
 ---
 
 # Generate Audit Report
