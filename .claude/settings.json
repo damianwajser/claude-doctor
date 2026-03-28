@@ -29,6 +29,9 @@
       "Bash(chmod *)"
     ]
   },
+  "sandbox": {
+    "enabled": true
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -36,7 +39,22 @@
         "hooks": [
           {
             "type": "command",
-            "command": "INPUT=$(cat); AGENT_TYPE=$(echo \"$INPUT\" | jq -r '.tool_input.subagent_type // .tool_input.prompt' 2>/dev/null); if echo \"$AGENT_TYPE\" | grep -qi 'rewriter'; then echo 'Rewriter agent requested — this agent CAN modify files in the target project. Ensure user has approved the changes.' >&2; fi; exit 0"
+            "command": "INPUT=$(cat); AGENT_TYPE=$(echo \"$INPUT\" | jq -r '.tool_input.subagent_type // .tool_input.prompt' 2>/dev/null); if echo \"$AGENT_TYPE\" | grep -qi 'rewriter'; then echo 'Rewriter agent requested — this agent CAN modify files in the target project. Ensure user has approved the changes.' >&2; fi; exit 0",
+            "timeout": 5,
+            "statusMessage": "Checking agent safety..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r '.tool_input.file_path' 2>/dev/null); case \"$FILE\" in *.json) jq . \"$FILE\" > /dev/null 2>&1 || { echo \"Invalid JSON in $FILE\" >&2; exit 2; } ;; esac; exit 0",
+            "timeout": 10,
+            "statusMessage": "Validating file integrity..."
           }
         ]
       }

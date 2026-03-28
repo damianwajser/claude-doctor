@@ -1,3 +1,5 @@
+<!-- Intentionally global: safety rules must always be active regardless of which files are being accessed -->
+
 # Target Project Safety Rules
 
 These rules apply whenever working with a target project (the project being audited):

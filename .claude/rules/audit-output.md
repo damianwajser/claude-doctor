@@ -1,3 +1,5 @@
+<!-- Intentionally global: audit output standards apply to all agents and skills, not just specific paths -->
+
 # Audit Output Standards
 
 All audit agents in this project must follow these output conventions:

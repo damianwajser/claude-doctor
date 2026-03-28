@@ -4,6 +4,7 @@ description: Generate a markdown report file from the latest audit results. Use 
 argument-hint: <target-project-path> [--output path/to/report.md]
 allowed-tools: Read, Grep, Glob, Write
 disable-model-invocation: true
+context: fork
 ---
 
 # Generate Audit Report

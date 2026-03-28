@@ -3,7 +3,7 @@ name: rewriter
 description: Applies approved improvements from the plan-generator to target project files. This is the ONLY agent that can modify files. Use only after the user has reviewed and approved the improvement plan.
 model: opus
 tools: Read, Grep, Glob, Bash, Edit, Write
-maxTurns: 50
+maxTurns: 30
 effort: high
 permissionMode: default
 isolation: worktree

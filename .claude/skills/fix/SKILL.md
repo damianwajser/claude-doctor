@@ -5,6 +5,7 @@ argument-hint: <target-project-path> [--phase N] [--item N]
 allowed-tools: Read, Grep, Glob, Agent
 disable-model-invocation: true
 effort: high
+context: fork
 ---
 
 # Apply Fixes
