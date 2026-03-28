@@ -21,7 +21,7 @@ It acts as an expert consultant that deeply understands how Claude Code works in
 
 - **9 agents** in `.claude/agents/`: pipeline of scanner → 6 parallel auditors (config, skills, agents, hooks, mcp, multi-project) → plan-generator → rewriter
 - **7 skills** in `.claude/skills/`: `/scan`, `/audit`, `/audit-full`, `/fix`, `/report`, `/compare`, `/init-target` — all run in forked context
-- **4 rules** in `.claude/rules/`: path-scoped guidelines for agent design, skill design, audit output, and target safety
+- **4 rules** in `.claude/rules/`: 2 path-scoped (agent design, skill design) + 2 global (audit output, target safety)
 - **Knowledge base** in `docs/claude-code-reference.md`: best practices from Anthropic docs, referenced by all auditors
 
 ## Workflow

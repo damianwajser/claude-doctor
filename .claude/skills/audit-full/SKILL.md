@@ -1,6 +1,6 @@
 ---
 name: audit-full
-description: Comprehensive deep audit of a Claude Code project. Runs all specialized auditors (config, skills, agents, hooks, multi-project) in parallel and generates a complete improvement plan. Use when someone says "full audit", "deep audit", "comprehensive review", or wants a complete analysis.
+description: Comprehensive deep audit of a Claude Code project. Runs all specialized auditors (config, skills, agents, hooks, mcp, multi-project) in parallel and generates a complete improvement plan. Use when someone says "full audit", "deep audit", "comprehensive review", or wants a complete analysis.
 argument-hint: <target-project-path> [--include-siblings]
 allowed-tools: Read, Grep, Glob, Agent
 disable-model-invocation: true
