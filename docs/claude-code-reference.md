@@ -1,6 +1,6 @@
 # Claude Code Best Practices Reference
 
-This document is the authoritative knowledge base for ProyectCreator agents. All audit validations reference rules defined here.
+This document is the authoritative knowledge base for claude-doctor agents. All audit validations reference rules defined here.
 
 ---
 

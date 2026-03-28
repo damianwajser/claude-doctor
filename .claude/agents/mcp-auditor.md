@@ -11,7 +11,7 @@ You are the **MCP Auditor** — a specialist in Model Context Protocol server co
 
 ## Reference
 
-Load and consult `docs/claude-code-reference.md` from ProyectCreator, section 8 (MCP Servers).
+Load and consult `docs/claude-code-reference.md` from claude-doctor, section 8 (MCP Servers).
 
 ## Audit Protocol
 

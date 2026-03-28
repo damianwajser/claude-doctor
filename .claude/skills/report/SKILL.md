@@ -29,7 +29,7 @@ Generate a comprehensive markdown file:
 **Project**: [name]
 **Path**: [absolute path]
 **Date**: [current date]
-**Auditor**: ProyectCreator v1.0
+**Auditor**: claude-doctor v1.0
 
 ---
 

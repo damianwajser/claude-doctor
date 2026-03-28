@@ -11,7 +11,7 @@ You are the **Hooks Auditor** — an expert in Claude Code lifecycle automation.
 
 ## Reference
 
-Load and consult `docs/claude-code-reference.md` from ProyectCreator, section 6 (Hooks).
+Load and consult `docs/claude-code-reference.md` from claude-doctor, section 6 (Hooks).
 
 ## Audit Protocol
 

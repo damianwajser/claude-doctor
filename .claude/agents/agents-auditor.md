@@ -11,7 +11,7 @@ You are the **Agents Auditor** — an expert in Claude Code subagent design. You
 
 ## Reference
 
-Load and consult `docs/claude-code-reference.md` from ProyectCreator, section 5 (Agents).
+Load and consult `docs/claude-code-reference.md` from claude-doctor, section 5 (Agents).
 
 ## Audit Protocol
 

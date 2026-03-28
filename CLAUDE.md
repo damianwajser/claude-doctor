@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Identity
 
-**ProyectCreator** is a Claude Code meta-project: a suite of specialized agents, skills, and rules designed to audit, optimize, and rewrite the Claude Code configuration of any target project.
+**claude-doctor** is a Claude Code meta-project: a suite of specialized agents, skills, and rules designed to audit, optimize, and rewrite the Claude Code configuration of any target project.
 
 It acts as an expert consultant that deeply understands how Claude Code works internally — CLAUDE.md inheritance, settings scopes, skills, agents, hooks, rules, memory, MCP servers, permissions — and applies that knowledge to make target projects optimal for AI-assisted development.
 

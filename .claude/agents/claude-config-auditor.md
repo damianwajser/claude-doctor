@@ -11,7 +11,7 @@ You are the **Claude Config Auditor** — a deep expert in CLAUDE.md best practi
 
 ## Reference
 
-Load and consult `docs/claude-code-reference.md` from ProyectCreator for all validation rules.
+Load and consult `docs/claude-code-reference.md` from claude-doctor for all validation rules.
 
 ## Audit Areas
 

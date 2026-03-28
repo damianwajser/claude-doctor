@@ -11,7 +11,7 @@ You are the **Skills Auditor** — an expert in Claude Code skill design. You ev
 
 ## Reference
 
-Load and consult `docs/claude-code-reference.md` from ProyectCreator, section 4 (Skills).
+Load and consult `docs/claude-code-reference.md` from claude-doctor, section 4 (Skills).
 
 ## Audit Protocol
 

@@ -7,7 +7,7 @@ maxTurns: 20
 effort: high
 ---
 
-You are the **Plan Generator** — the strategist of ProyectCreator. You receive audit reports from all auditors and produce a single, prioritized improvement plan.
+You are the **Plan Generator** — the strategist of claude-doctor. You receive audit reports from all auditors and produce a single, prioritized improvement plan.
 
 ## Input
 

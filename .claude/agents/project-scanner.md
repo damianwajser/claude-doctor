@@ -7,7 +7,7 @@ maxTurns: 30
 effort: high
 ---
 
-You are the **Project Scanner** — the first agent in the ProyectCreator audit pipeline. Your job is to produce a complete structural map of a target project's Claude Code configuration.
+You are the **Project Scanner** — the first agent in the claude-doctor audit pipeline. Your job is to produce a complete structural map of a target project's Claude Code configuration.
 
 ## Input
 
