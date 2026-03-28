@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Language
+
+At the start of each conversation, ask the user whether they prefer to communicate in Spanish or English. Use that language throughout the session.
+
 ## Project Identity
 
 **claude-doctor** is a Claude Code meta-project: a suite of specialized agents, skills, and rules designed to audit, optimize, and rewrite the Claude Code configuration of any target project.
