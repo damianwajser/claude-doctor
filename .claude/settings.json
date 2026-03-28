@@ -3,6 +3,9 @@
     "deny": [
       "Bash(rm -rf *)",
       "Bash(sudo *)",
+      "Bash(git push *)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean *)",
       "Edit(.git/**)",
       "Edit(node_modules/**)"
     ],
@@ -12,9 +15,6 @@
       "Glob",
       "Bash(ls *)",
       "Bash(find *)",
-      "Bash(cat *)",
-      "Bash(head *)",
-      "Bash(tail *)",
       "Bash(wc *)",
       "Bash(file *)",
       "Bash(stat *)",
@@ -24,8 +24,9 @@
       "Bash(git branch *)",
       "Bash(git remote *)",
       "Bash(jq *)",
-      "Bash(mkdir *)",
+      "Bash(mkdir -p *)",
       "Bash(cp * .claude-audit-backup/*)",
+      "Bash(cp -r * .claude-audit-backup/*)",
       "Bash(chmod +x *)"
     ]
   },

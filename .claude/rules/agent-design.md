@@ -1,6 +1,6 @@
 ---
 paths:
-  - ".claude/agents/**/*.md"
+  - ".claude/agents/*.md"
 ---
 
 # Agent Design Rules

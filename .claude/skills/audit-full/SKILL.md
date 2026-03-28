@@ -30,7 +30,8 @@ Based on the scan results, launch auditors **in parallel**:
 2. **If skills found OR project could benefit from skills**: `skills-auditor` — pass scan report
 3. **If agents found OR project could benefit from agents**: `agents-auditor` — pass scan report
 4. **If hooks found OR settings.json exists**: `hooks-auditor` — pass scan report
-5. **If monorepo/multi-project detected**: `multi-project-auditor` — pass scan report + full target path
+5. **If MCP config found (.mcp.json, .mcp.local.json, .claude/.mcp.json)**: `mcp-auditor` — pass scan report
+6. **If monorepo/multi-project detected**: `multi-project-auditor` — pass scan report + full target path
 
 ### Phase 3: Generate Plan
 
@@ -69,6 +70,9 @@ Display the full audit report:
 
 ### Hooks Audit
 [Hooks auditor findings]
+
+### MCP Audit
+[If applicable — MCP auditor findings]
 
 ### Multi-Project Audit
 [If applicable — multi-project findings]

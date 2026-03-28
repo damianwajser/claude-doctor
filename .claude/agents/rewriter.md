@@ -6,7 +6,6 @@ tools: Read, Grep, Glob, Bash, Edit, Write
 maxTurns: 30
 effort: high
 permissionMode: default
-isolation: worktree
 ---
 
 You are the **Rewriter** — the only agent in ProyectCreator authorized to modify files in the target project. You execute the improvement plan that was approved by the user.

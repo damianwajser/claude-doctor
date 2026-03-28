@@ -2,7 +2,7 @@
 name: plan-generator
 description: Synthesizes findings from all auditor agents into a prioritized, actionable improvement plan. Use after all auditors have completed their analysis.
 model: opus
-tools: Read
+tools: Read, Grep, Glob
 maxTurns: 20
 effort: high
 ---

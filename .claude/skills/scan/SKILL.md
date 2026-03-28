@@ -5,6 +5,7 @@ argument-hint: <target-project-path>
 allowed-tools: Read, Grep, Glob, Agent
 disable-model-invocation: true
 context: fork
+effort: medium
 ---
 
 # Project Scan

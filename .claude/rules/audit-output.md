@@ -8,6 +8,7 @@ All audit agents in this project must follow these output conventions:
 - **CRITICAL**: Must fix — broken functionality, security issues, lost instructions
 - **WARNING**: Should fix — suboptimal patterns, missing best practices
 - **SUGGESTION**: Nice to have — improvements, missing opportunities
+- **NITPICK**: Cosmetic or minor consistency issue — fix if convenient
 
 ## Finding Format
 Every finding must include:

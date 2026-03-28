@@ -41,7 +41,7 @@ jq . .claude/settings.json          # Validate settings JSON
 
 ## Key Design Decisions
 
-- **Agents are read-only by default** — auditors only use Read, Grep, Glob. Only `rewriter` can Edit/Write, runs in isolated worktree with default permissionMode.
+- **Agents are read-only by default** — auditors only use Read, Grep, Glob. Only `rewriter` can Edit/Write, runs with default permissionMode.
 - **Skills run in forked context** — all skills use `context: fork` to prevent context bloat from multi-agent orchestration.
 - **Multi-project is first-class** — the scanner always checks for parent directories, sibling projects, and monorepo patterns.
 - **Knowledge base in docs/** — agents reference `docs/claude-code-reference.md` for best practices rather than relying on training data alone.

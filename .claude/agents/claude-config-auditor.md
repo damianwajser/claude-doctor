@@ -1,7 +1,7 @@
 ---
 name: claude-config-auditor
 description: Audits CLAUDE.md files, settings.json, permissions, and .claude/rules/ for quality, completeness, and best practices. Use after project-scanner has mapped the target project structure.
-model: opus
+model: sonnet
 tools: Read, Grep, Glob, Bash
 maxTurns: 40
 effort: high

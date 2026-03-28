@@ -6,7 +6,6 @@ allowed-tools: Read, Grep, Glob, Agent
 disable-model-invocation: true
 context: fork
 effort: high
-agent: general-purpose
 ---
 
 # Bootstrap Claude Code Configuration
