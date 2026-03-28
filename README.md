@@ -63,106 +63,121 @@ Then point it at any project:
 ### Full Audit Pipeline
 
 ```mermaid
-graph TD
-    USER["/audit-full path"] --> SCANNER["project-scanner"]
+flowchart TD
+    USER(["fa:fa-terminal /audit-full path"]):::cmd --> SCANNER
 
-    SCANNER --> CONFIG["claude-config-auditor"]
-    SCANNER --> SKILLS["skills-auditor"]
-    SCANNER --> AGENTS["agents-auditor"]
-    SCANNER --> HOOKS["hooks-auditor"]
-    SCANNER --> MCP["mcp-auditor"]
-    SCANNER --> MULTI["multi-project-auditor"]
+    subgraph SCAN ["Phase 1 — Discovery"]
+        SCANNER["fa:fa-search project-scanner"]:::scanner
+    end
 
-    CONFIG --> PLAN["plan-generator"]
-    SKILLS --> PLAN
-    AGENTS --> PLAN
-    HOOKS --> PLAN
-    MCP --> PLAN
-    MULTI --> PLAN
+    SCANNER --> CONFIG & SKILLS & AGENTS & HOOKS & MCP & MULTI
 
-    PLAN --> REVIEW{{"User reviews plan"}}
-    REVIEW -->|approved| REWRITER["rewriter"]
-    REWRITER --> DONE["Fixed project"]
+    subgraph AUDIT ["Phase 2 — Parallel Auditors (read-only)"]
+        CONFIG["fa:fa-file-alt config"]:::auditor
+        SKILLS["fa:fa-bolt skills"]:::auditor
+        AGENTS["fa:fa-robot agents"]:::auditor
+        HOOKS["fa:fa-link hooks"]:::auditor
+        MCP["fa:fa-server mcp"]:::auditor
+        MULTI["fa:fa-sitemap multi-project"]:::auditor
+    end
 
-    style USER fill:#4A90D9,color:#fff
-    style SCANNER fill:#7B68EE,color:#fff
-    style CONFIG fill:#E67E22,color:#fff
-    style SKILLS fill:#E67E22,color:#fff
-    style AGENTS fill:#E67E22,color:#fff
-    style HOOKS fill:#E67E22,color:#fff
-    style MCP fill:#E67E22,color:#fff
-    style MULTI fill:#E67E22,color:#fff
-    style PLAN fill:#2ECC71,color:#fff
-    style REVIEW fill:#F39C12,color:#fff
-    style REWRITER fill:#E74C3C,color:#fff
-    style DONE fill:#27AE60,color:#fff
+    CONFIG & SKILLS & AGENTS & HOOKS & MCP & MULTI --> PLAN
+
+    subgraph SYNTH ["Phase 3 — Synthesis"]
+        PLAN["fa:fa-list-ol plan-generator"]:::plan
+    end
+
+    PLAN --> REVIEW{{"fa:fa-user User reviews plan"}}:::review
+    REVIEW -- "approved" --> REWRITER
+
+    subgraph APPLY ["Phase 4 — Apply"]
+        REWRITER["fa:fa-wrench rewriter"]:::writer
+    end
+
+    REWRITER --> DONE(["fa:fa-check-circle Optimized project"]):::done
+
+    classDef cmd fill:#1a1a2e,stroke:#4A90D9,stroke-width:2px,color:#4A90D9
+    classDef scanner fill:#2d2b55,stroke:#7B68EE,stroke-width:2px,color:#e0e0ff
+    classDef auditor fill:#2c2417,stroke:#E67E22,stroke-width:2px,color:#f5c77e
+    classDef plan fill:#1a2e1a,stroke:#2ECC71,stroke-width:2px,color:#8ef5b0
+    classDef review fill:#2e2a17,stroke:#F39C12,stroke-width:2px,color:#f5d78e
+    classDef writer fill:#2e1a1a,stroke:#E74C3C,stroke-width:2px,color:#f5a0a0
+    classDef done fill:#1a2e1a,stroke:#27AE60,stroke-width:2px,color:#8ef5b0
+
+    style SCAN fill:none,stroke:#7B68EE,stroke-width:1px,stroke-dasharray:5 5,color:#7B68EE
+    style AUDIT fill:none,stroke:#E67E22,stroke-width:1px,stroke-dasharray:5 5,color:#E67E22
+    style SYNTH fill:none,stroke:#2ECC71,stroke-width:1px,stroke-dasharray:5 5,color:#2ECC71
+    style APPLY fill:none,stroke:#E74C3C,stroke-width:1px,stroke-dasharray:5 5,color:#E74C3C
 ```
 
-9 specialized agents, each focused on one area. Auditors are read-only (orange). Only the rewriter (red) can modify files — and only after you approve.
+9 specialized agents, each focused on one area. Auditors are **read-only**. Only the rewriter can modify files — and only after you approve.
 
 ### Typical Workflow
 
 ```mermaid
-graph LR
-    SCAN["/scan"] --> AUDIT["/audit"]
-    AUDIT --> FULL["/audit-full"]
-    FULL --> FIX["/fix"]
-    FIX --> VERIFY["/audit"]
-    VERIFY --> REPORT["/report"]
+flowchart LR
+    SCAN(["fa:fa-binoculars /scan"]):::blue
+    AUDIT(["fa:fa-stethoscope /audit"]):::blue
+    FULL(["fa:fa-microscope /audit-full"]):::purple
+    FIX(["fa:fa-wrench /fix"]):::red
+    VERIFY(["fa:fa-check /audit"]):::green
+    REPORT(["fa:fa-file-medical /report"]):::green
 
-    SCAN -.- S1["See what exists"]
-    AUDIT -.- S2["Quick health check"]
-    FULL -.- S3["Deep analysis + plan"]
-    FIX -.- S4["Apply phase by phase"]
-    VERIFY -.- S5["Confirm improvements"]
-    REPORT -.- S6["Share with team"]
+    SCAN -- "what exists?" --> AUDIT
+    AUDIT -- "quick score" --> FULL
+    FULL -- "deep plan" --> FIX
+    FIX -- "phase by phase" --> VERIFY
+    VERIFY -- "confirmed" --> REPORT
 
-    style SCAN fill:#3498DB,color:#fff
-    style AUDIT fill:#3498DB,color:#fff
-    style FULL fill:#8E44AD,color:#fff
-    style FIX fill:#E74C3C,color:#fff
-    style VERIFY fill:#2ECC71,color:#fff
-    style REPORT fill:#2ECC71,color:#fff
-    style S1 fill:none,stroke:none,color:#888
-    style S2 fill:none,stroke:none,color:#888
-    style S3 fill:none,stroke:none,color:#888
-    style S4 fill:none,stroke:none,color:#888
-    style S5 fill:none,stroke:none,color:#888
-    style S6 fill:none,stroke:none,color:#888
+    classDef blue fill:#1a1a2e,stroke:#3498DB,stroke-width:2px,color:#7ec8f5
+    classDef purple fill:#1f1a2e,stroke:#8E44AD,stroke-width:2px,color:#c49ef5
+    classDef red fill:#2e1a1a,stroke:#E74C3C,stroke-width:2px,color:#f5a0a0
+    classDef green fill:#1a2e1a,stroke:#2ECC71,stroke-width:2px,color:#8ef5b0
 ```
 
-### Monorepo Scanning
+### Monorepo Inheritance Analysis
 
 ```mermaid
-graph TD
-    START["project-scanner receives path"] --> UP["Walk UP: find parent projects"]
-    UP --> ROOT["Identify ecosystem root"]
-    ROOT --> DOWN["Walk DOWN: map all subprojects"]
-    DOWN --> SIBLINGS["Map sibling projects"]
+flowchart TD
+    START(["fa:fa-folder-open Receive target path"]):::cmd
 
-    SIBLINGS --> CHAIN["Build instruction inheritance chain"]
+    subgraph DISCOVER ["Discovery"]
+        UP["fa:fa-arrow-up Walk UP\nfind parent projects"]:::scan
+        ROOT["fa:fa-crown Identify\necosystem root"]:::scan
+        DOWN["fa:fa-arrow-down Walk DOWN\nmap subprojects"]:::scan
+        SIBLINGS["fa:fa-arrows-alt-h Map\nsiblings"]:::scan
+    end
 
-    CHAIN --> CHECK1["Check: parent CLAUDE.md inherited?"]
-    CHAIN --> CHECK2["Check: claudeMdExcludes hiding rules?"]
-    CHAIN --> CHECK3["Check: siblings duplicating config?"]
-    CHAIN --> CHECK4["Check: child contradicts parent?"]
+    START --> UP --> ROOT --> DOWN --> SIBLINGS
 
-    CHECK1 --> REPORT["Ecosystem map + findings"]
-    CHECK2 --> REPORT
-    CHECK3 --> REPORT
-    CHECK4 --> REPORT
+    SIBLINGS --> CHAIN
 
-    style START fill:#4A90D9,color:#fff
-    style UP fill:#7B68EE,color:#fff
-    style ROOT fill:#7B68EE,color:#fff
-    style DOWN fill:#7B68EE,color:#fff
-    style SIBLINGS fill:#7B68EE,color:#fff
-    style CHAIN fill:#E67E22,color:#fff
-    style CHECK1 fill:#E74C3C,color:#fff
-    style CHECK2 fill:#E74C3C,color:#fff
-    style CHECK3 fill:#E74C3C,color:#fff
-    style CHECK4 fill:#E74C3C,color:#fff
-    style REPORT fill:#2ECC71,color:#fff
+    subgraph ANALYZE ["Inheritance Analysis"]
+        CHAIN["fa:fa-link Build instruction\ninheritance chain"]:::analyze
+    end
+
+    CHAIN --> CHECK1 & CHECK2 & CHECK3 & CHECK4
+
+    subgraph CHECKS ["Context Loss Detection"]
+        CHECK1["fa:fa-eye-slash Parent CLAUDE.md\nnot inherited?"]:::check
+        CHECK2["fa:fa-ban claudeMdExcludes\nhiding rules?"]:::check
+        CHECK3["fa:fa-copy Siblings\nduplicating config?"]:::check
+        CHECK4["fa:fa-exclamation-triangle Child contradicts\nparent?"]:::check
+    end
+
+    CHECK1 & CHECK2 & CHECK3 & CHECK4 --> REPORT
+
+    REPORT(["fa:fa-map Ecosystem map\n+ findings"]):::done
+
+    classDef cmd fill:#1a1a2e,stroke:#4A90D9,stroke-width:2px,color:#7ec8f5
+    classDef scan fill:#2d2b55,stroke:#7B68EE,stroke-width:2px,color:#e0e0ff
+    classDef analyze fill:#2c2417,stroke:#E67E22,stroke-width:2px,color:#f5c77e
+    classDef check fill:#2e1a1a,stroke:#E74C3C,stroke-width:2px,color:#f5a0a0
+    classDef done fill:#1a2e1a,stroke:#27AE60,stroke-width:2px,color:#8ef5b0
+
+    style DISCOVER fill:none,stroke:#7B68EE,stroke-width:1px,stroke-dasharray:5 5,color:#7B68EE
+    style ANALYZE fill:none,stroke:#E67E22,stroke-width:1px,stroke-dasharray:5 5,color:#E67E22
+    style CHECKS fill:none,stroke:#E74C3C,stroke-width:1px,stroke-dasharray:5 5,color:#E74C3C
 ```
 
 ## Monorepo Support
