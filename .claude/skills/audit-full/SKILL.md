@@ -1,24 +1,24 @@
 ---
 name: audit-full
 description: Comprehensive deep audit of a Claude Code project. Runs all specialized auditors (config, skills, agents, hooks, multi-project) in parallel and generates a complete improvement plan. Use when someone says "full audit", "deep audit", "comprehensive review", or wants a complete analysis.
-argument-hint: <target-project-path> [--include-siblings] [--fix]
-allowed-tools: Read, Grep, Glob, Bash, Agent
+argument-hint: <target-project-path> [--include-siblings]
+allowed-tools: Read, Grep, Glob, Agent
 disable-model-invocation: true
 effort: max
+context: fork
 ---
 
 # Comprehensive Audit
 
-Perform a full, deep audit of the Claude Code configuration for the project at `$0`.
+Perform a full, deep audit of the Claude Code configuration for the project at `$ARGUMENTS`.
 
 ## Options
 - `--include-siblings`: Also audit sibling projects in the same parent directory
-- `--fix`: After generating the plan, automatically apply Phase 1 (Foundation) fixes
 
 ## Steps
 
 ### Phase 1: Scan
-Use the `project-scanner` agent to produce a complete structural map. Pass `$0` as the agent's prompt.
+Use the `project-scanner` agent to produce a complete structural map. Pass `$ARGUMENTS` as the agent's prompt.
 
 Wait for the scan to complete before proceeding.
 
@@ -82,16 +82,9 @@ Display the full audit report:
 
 ### Next Steps
 - Review the plan above
-- Run `/fix $0` to apply approved changes
-- Run `/report $0` to export this audit as a markdown file
+- Run `/fix $ARGUMENTS` to apply approved changes
+- Run `/report $ARGUMENTS` to export this audit as a markdown file
 ```
-
-### Phase 5 (if --fix flag)
-
-If `--fix` was specified:
-1. Ask user to confirm Phase 1 changes
-2. Use `rewriter` agent to apply Phase 1 only
-3. Report changes made
 
 ## Important
 - This is a LONG operation — set expectations with the user

@@ -2,20 +2,20 @@
 name: report
 description: Generate a markdown report file from the latest audit results. Use when someone says "generate report", "export audit", "save report", or wants a persistent record of the audit findings.
 argument-hint: <target-project-path> [--output path/to/report.md]
-allowed-tools: Read, Grep, Glob, Bash, Write
+allowed-tools: Read, Grep, Glob, Write
 disable-model-invocation: true
 ---
 
 # Generate Audit Report
 
-Export the audit results for the project at `$0` as a standalone markdown file.
+Export the audit results for the project at `$ARGUMENTS` as a standalone markdown file.
 
 ## Options
-- `--output path/to/report.md`: Custom output path (default: `$0/.claude-audit-report.md`)
+- `--output path/to/report.md`: Custom output path (default: `$ARGUMENTS/.claude-audit-report.md`)
 
 ## Prerequisites
 
-An audit must have been run in the current conversation. If not, inform the user to run `/audit $0` or `/audit-full $0` first.
+An audit must have been run in the current conversation. If not, inform the user to run `/audit $ARGUMENTS` or `/audit-full $ARGUMENTS` first.
 
 ## Report Structure
 

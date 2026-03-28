@@ -30,13 +30,13 @@
     ]
   },
   "hooks": {
-    "SubagentStart": [
+    "PreToolUse": [
       {
-        "matcher": "rewriter",
+        "matcher": "Agent",
         "hooks": [
           {
             "type": "command",
-            "command": "echo '⚠️  Rewriter agent started — this agent CAN modify files in the target project. Ensure user has approved the changes.' >&2"
+            "command": "INPUT=$(cat); AGENT_TYPE=$(echo \"$INPUT\" | jq -r '.tool_input.subagent_type // .tool_input.prompt' 2>/dev/null); if echo \"$AGENT_TYPE\" | grep -qi 'rewriter'; then echo 'Rewriter agent requested — this agent CAN modify files in the target project. Ensure user has approved the changes.' >&2; fi; exit 0"
           }
         ]
       }

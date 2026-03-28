@@ -2,14 +2,14 @@
 name: fix
 description: Apply improvements to a target Claude Code project based on a previously generated audit plan. Use when someone says "fix", "apply changes", "improve project", or "rewrite config". Requires a prior audit to have been run.
 argument-hint: <target-project-path> [--phase N] [--item N]
-allowed-tools: Read, Grep, Glob, Bash, Agent, Edit, Write
+allowed-tools: Read, Grep, Glob, Agent
 disable-model-invocation: true
 effort: high
 ---
 
 # Apply Fixes
 
-Apply improvements to the Claude Code configuration at `$0`.
+Apply improvements to the Claude Code configuration at `$ARGUMENTS`.
 
 ## Options
 - `--phase N`: Apply only phase N from the plan (default: Phase 1)
@@ -18,7 +18,7 @@ Apply improvements to the Claude Code configuration at `$0`.
 ## Prerequisites Check
 
 1. Check if an audit has been run for this project in the current conversation
-2. If no audit found, run `/audit-full $0` first and return the results before fixing
+2. If no audit found, run `/audit-full $ARGUMENTS` first and return the results before fixing
 
 ## Execution
 

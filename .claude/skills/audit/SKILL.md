@@ -2,8 +2,9 @@
 name: audit
 description: Quick audit of a Claude Code project structure. Scans the target project, evaluates CLAUDE.md quality, and identifies critical issues. Use when someone says "audit", "review project", "check project structure", or provides a project path to analyze.
 argument-hint: <target-project-path>
-allowed-tools: Read, Grep, Glob, Bash, Agent
+allowed-tools: Read, Grep, Glob, Agent
 disable-model-invocation: true
+context: fork
 ---
 
 # Quick Audit

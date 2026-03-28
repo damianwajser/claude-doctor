@@ -19,27 +19,10 @@ It acts as an expert consultant that deeply understands how Claude Code works in
 
 ## Architecture
 
-```
-.claude/
-├── agents/              # 8 specialized subagents (the core engine)
-│   ├── project-scanner.md
-│   ├── claude-config-auditor.md
-│   ├── skills-auditor.md
-│   ├── agents-auditor.md
-│   ├── hooks-auditor.md
-│   ├── multi-project-auditor.md
-│   ├── plan-generator.md
-│   └── rewriter.md
-├── skills/              # User-invocable commands
-│   ├── audit/           # /audit — quick audit of a target project
-│   ├── audit-full/      # /audit-full — deep comprehensive audit
-│   ├── fix/             # /fix — apply improvements to target
-│   └── report/          # /report — generate markdown report
-├── rules/               # Path-specific coding guidelines
-└── settings.json        # Project permissions and hooks
-docs/
-└── claude-code-reference.md  # Knowledge base: best practices from Anthropic docs
-```
+- **8 agents** in `.claude/agents/`: pipeline of scanner → 5 parallel auditors → plan-generator → rewriter
+- **4 skills** in `.claude/skills/`: `/audit`, `/audit-full`, `/fix`, `/report` — all run in forked context
+- **4 rules** in `.claude/rules/`: path-scoped guidelines for agent design, skill design, audit output, and target safety
+- **Knowledge base** in `docs/claude-code-reference.md`: best practices from Anthropic docs, referenced by all auditors
 
 ## Workflow
 
@@ -50,9 +33,16 @@ docs/
 5. User reviews the plan
 6. `rewriter` applies approved changes
 
+## Validation
+
+```bash
+jq . .claude/settings.json          # Validate settings JSON
+```
+
 ## Key Design Decisions
 
-- **Agents are read-only by default** — auditors only use Read, Grep, Glob, Bash. Only `rewriter` can Edit/Write files.
+- **Agents are read-only by default** — auditors only use Read, Grep, Glob. Only `rewriter` can Edit/Write, runs in isolated worktree with default permissionMode.
+- **Skills run in forked context** — all skills use `context: fork` to prevent context bloat from multi-agent orchestration.
 - **Multi-project is first-class** — the scanner always checks for parent directories, sibling projects, and monorepo patterns.
 - **Knowledge base in docs/** — agents reference `docs/claude-code-reference.md` for best practices rather than relying on training data alone.
 - **Target project path** — always passed via `$ARGUMENTS` to skills, or as the first message in conversation. Never assume the target is this project itself.
