@@ -60,33 +60,109 @@ Then point it at any project:
 
 ## How It Works
 
+### Full Audit Pipeline
+
+```mermaid
+graph TD
+    USER["/audit-full path"] --> SCANNER["project-scanner"]
+
+    SCANNER --> CONFIG["claude-config-auditor"]
+    SCANNER --> SKILLS["skills-auditor"]
+    SCANNER --> AGENTS["agents-auditor"]
+    SCANNER --> HOOKS["hooks-auditor"]
+    SCANNER --> MCP["mcp-auditor"]
+    SCANNER --> MULTI["multi-project-auditor"]
+
+    CONFIG --> PLAN["plan-generator"]
+    SKILLS --> PLAN
+    AGENTS --> PLAN
+    HOOKS --> PLAN
+    MCP --> PLAN
+    MULTI --> PLAN
+
+    PLAN --> REVIEW{{"User reviews plan"}}
+    REVIEW -->|approved| REWRITER["rewriter"]
+    REWRITER --> DONE["Fixed project"]
+
+    style USER fill:#4A90D9,color:#fff
+    style SCANNER fill:#7B68EE,color:#fff
+    style CONFIG fill:#E67E22,color:#fff
+    style SKILLS fill:#E67E22,color:#fff
+    style AGENTS fill:#E67E22,color:#fff
+    style HOOKS fill:#E67E22,color:#fff
+    style MCP fill:#E67E22,color:#fff
+    style MULTI fill:#E67E22,color:#fff
+    style PLAN fill:#2ECC71,color:#fff
+    style REVIEW fill:#F39C12,color:#fff
+    style REWRITER fill:#E74C3C,color:#fff
+    style DONE fill:#27AE60,color:#fff
 ```
-/audit-full path
-    |
-    +-- project-scanner -----------------------------------------+
-    |                                                            |
-    +-- claude-config-auditor --+                                |
-    +-- skills-auditor ---------+                                |
-    +-- agents-auditor ---------+-- (parallel) -- plan-generator
-    +-- hooks-auditor ----------+
-    +-- mcp-auditor ------------+
-    +-- multi-project-auditor --+
-                                                                 |
-/fix path                                                        |
-    |                                                            |
-    +-- rewriter -- applies approved changes --------------------+
+
+9 specialized agents, each focused on one area. Auditors are read-only (orange). Only the rewriter (red) can modify files — and only after you approve.
+
+### Typical Workflow
+
+```mermaid
+graph LR
+    SCAN["/scan"] --> AUDIT["/audit"]
+    AUDIT --> FULL["/audit-full"]
+    FULL --> FIX["/fix"]
+    FIX --> VERIFY["/audit"]
+    VERIFY --> REPORT["/report"]
+
+    SCAN -.- S1["See what exists"]
+    AUDIT -.- S2["Quick health check"]
+    FULL -.- S3["Deep analysis + plan"]
+    FIX -.- S4["Apply phase by phase"]
+    VERIFY -.- S5["Confirm improvements"]
+    REPORT -.- S6["Share with team"]
+
+    style SCAN fill:#3498DB,color:#fff
+    style AUDIT fill:#3498DB,color:#fff
+    style FULL fill:#8E44AD,color:#fff
+    style FIX fill:#E74C3C,color:#fff
+    style VERIFY fill:#2ECC71,color:#fff
+    style REPORT fill:#2ECC71,color:#fff
+    style S1 fill:none,stroke:none,color:#888
+    style S2 fill:none,stroke:none,color:#888
+    style S3 fill:none,stroke:none,color:#888
+    style S4 fill:none,stroke:none,color:#888
+    style S5 fill:none,stroke:none,color:#888
+    style S6 fill:none,stroke:none,color:#888
 ```
 
-9 specialized agents, each focused on one area. Auditors are read-only. Only the rewriter can modify files — and only after you approve.
+### Monorepo Scanning
 
-## Typical Flow
+```mermaid
+graph TD
+    START["project-scanner receives path"] --> UP["Walk UP: find parent projects"]
+    UP --> ROOT["Identify ecosystem root"]
+    ROOT --> DOWN["Walk DOWN: map all subprojects"]
+    DOWN --> SIBLINGS["Map sibling projects"]
 
-```bash
-/scan /path/to/project           # See what exists
-/audit /path/to/project          # Quick health check
-/audit-full /path/to/project     # Deep analysis + fix plan
-/fix /path/to/project            # Apply phase 1, review, phase 2...
-/audit /path/to/project          # Confirm improvements
+    SIBLINGS --> CHAIN["Build instruction inheritance chain"]
+
+    CHAIN --> CHECK1["Check: parent CLAUDE.md inherited?"]
+    CHAIN --> CHECK2["Check: claudeMdExcludes hiding rules?"]
+    CHAIN --> CHECK3["Check: siblings duplicating config?"]
+    CHAIN --> CHECK4["Check: child contradicts parent?"]
+
+    CHECK1 --> REPORT["Ecosystem map + findings"]
+    CHECK2 --> REPORT
+    CHECK3 --> REPORT
+    CHECK4 --> REPORT
+
+    style START fill:#4A90D9,color:#fff
+    style UP fill:#7B68EE,color:#fff
+    style ROOT fill:#7B68EE,color:#fff
+    style DOWN fill:#7B68EE,color:#fff
+    style SIBLINGS fill:#7B68EE,color:#fff
+    style CHAIN fill:#E67E22,color:#fff
+    style CHECK1 fill:#E74C3C,color:#fff
+    style CHECK2 fill:#E74C3C,color:#fff
+    style CHECK3 fill:#E74C3C,color:#fff
+    style CHECK4 fill:#E74C3C,color:#fff
+    style REPORT fill:#2ECC71,color:#fff
 ```
 
 ## Monorepo Support
