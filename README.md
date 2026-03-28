@@ -39,8 +39,8 @@ Then point it at any project:
 |---------|-------------|
 | `/scan <path>` | Map all Claude Code config files — just the facts, no judgment |
 | `/audit <path>` | Quick checkup — health score (A-F) and top 5 issues |
-| `/audit-full <path>` | Full examination — 6 auditors in parallel + prioritized fix plan |
-| `/fix <path> [--phase N]` | Apply fixes phase by phase, with confirmation and backups |
+| `/audit-full <path>` | Full examination — 6 auditors in parallel + prioritized fix plan. Offers to apply Phase 1 fixes inline |
+| `/fix <path> [--phase N]` | Apply fixes phase by phase — reuses persisted audit results, with confirmation and backups |
 | `/report <path>` | Export findings as a shareable markdown report |
 | `/compare <path-A> <path-B>` | Side-by-side diff of two project configurations |
 | `/init-target <path>` | Set up optimal Claude Code config from scratch |
@@ -87,13 +87,16 @@ flowchart TD
         PLAN["fa:fa-list-ol plan-generator"]:::plan
     end
 
-    PLAN --> REVIEW{{"fa:fa-user User reviews plan"}}:::review
-    REVIEW -- "approved" --> REWRITER
+    PLAN --> PERSIST["fa:fa-save Persist report"]:::plan
+    PERSIST --> REVIEW{{"fa:fa-user User reviews plan"}}:::review
+    REVIEW -- "apply now" --> REWRITER
+    REVIEW -- "later → /fix" --> FIX_LATER(["fa:fa-clock Reads persisted report"]):::cmd
 
     subgraph APPLY ["Phase 4 — Apply"]
         REWRITER["fa:fa-wrench rewriter"]:::writer
     end
 
+    FIX_LATER --> REWRITER
     REWRITER --> DONE(["fa:fa-check-circle Optimized project"]):::done
 
     classDef cmd fill:#1a1a2e,stroke:#4A90D9,stroke-width:2px,color:#4A90D9
@@ -125,8 +128,10 @@ flowchart LR
 
     SCAN -- "what exists?" --> AUDIT
     AUDIT -- "quick score" --> FULL
-    FULL -- "deep plan" --> FIX
-    FIX -- "phase by phase" --> VERIFY
+    FULL -- "apply now?" --> APPLY_NOW{{"inline fix"}}:::red
+    FULL -- "later" --> FIX
+    APPLY_NOW --> VERIFY
+    FIX -- "reads saved report" --> VERIFY
     VERIFY -- "confirmed" --> REPORT
 
     classDef blue fill:#1a1a2e,stroke:#3498DB,stroke-width:2px,color:#7ec8f5

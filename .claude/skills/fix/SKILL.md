@@ -18,8 +18,11 @@ Apply improvements to the Claude Code configuration at `$ARGUMENTS`.
 
 ## Prerequisites Check
 
-1. Check if an audit has been run for this project in the current conversation
-2. If no audit found, run `/audit-full $ARGUMENTS` first and return the results before fixing
+1. Derive the project name from the last directory component of `$ARGUMENTS` (lowercase, e.g., `/Users/foo/Enex` → `enex`)
+2. Check if a persisted audit report exists at `/tmp/claude/audit-<project-name>.md`
+   - If found: read it and use it as the audit plan. Inform the user: `Usando reporte de auditoría existente de /tmp/claude/audit-<project-name>.md`
+   - If not found: check if an audit has been run in the current conversation context
+3. If no audit found anywhere, run `/audit-full $ARGUMENTS` first and return the results before fixing
 
 ## Execution
 

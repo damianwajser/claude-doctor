@@ -90,8 +90,34 @@ Display the full audit report:
 - Run `/report $ARGUMENTS` to export this audit as a markdown file
 ```
 
+### Phase 5: Persist Results
+
+After presenting the report, save it to a known location so `/fix` can reuse it without re-auditing:
+
+1. Derive the project name from the last directory component of `$ARGUMENTS` (lowercase, e.g., `/Users/foo/Enex` → `enex`)
+2. Write the full audit report (markdown) to `/tmp/claude/audit-<project-name>.md`
+3. Confirm to the user: `Reporte guardado en /tmp/claude/audit-<project-name>.md`
+
+### Phase 6: Offer Inline Fix
+
+After saving the report, ask the user if they want to apply Phase 1 fixes immediately:
+
+```
+¿Querés que aplique los fixes de Phase 1 ahora? (sí/no)
+- Si aceptás, los aplico directamente usando el agente `rewriter`
+- Si no, podés ejecutar `/fix $ARGUMENTS` más tarde (va a leer el reporte guardado)
+```
+
+If the user accepts:
+1. Show the Phase 1 change table and ask for confirmation (same as `/fix` flow)
+2. Use the `rewriter` agent to apply the approved changes
+3. Report results
+
+If the user declines, end the skill normally.
+
 ## Important
 - This is a LONG operation — set expectations with the user
 - Run auditors in parallel whenever possible to save time
 - If the project is large, focus on the most impactful areas first
 - Reference `docs/claude-code-reference.md` for all validations
+- ALWAYS persist the report before offering fixes — even if the user declines, `/fix` needs it
