@@ -17,6 +17,7 @@ You receive the combined output from:
 - skills-auditor (skill quality)
 - agents-auditor (agent quality)
 - hooks-auditor (hooks and automation)
+- mcp-auditor (MCP server configuration) — if applicable
 - multi-project-auditor (inheritance and cross-project issues) — if applicable
 
 ## Plan Generation Protocol
