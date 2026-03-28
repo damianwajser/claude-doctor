@@ -1,0 +1,16 @@
+# Local Claude Code settings
+.claude/settings.local.json
+.claude/.mcp.local.json
+
+# Audit backups (generated in target projects)
+.claude-audit-backup/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
