@@ -50,7 +50,7 @@ Then point it at any project:
 | Area | Examples |
 |------|----------|
 | **CLAUDE.md** | Size (<200 lines), structure, build/test commands, generic advice, contradictions |
-| **Settings** | Deny-first permissions, sandbox, secrets in config, `claudeMdExcludes` accidents |
+| **Settings** | Deny-first permissions, sandbox, secrets in config, `claudeMdExcludes` accidents, `.claudeignore` completeness |
 | **Skills** | Missing descriptions, unrestricted tools, missing `context: fork`, `$ARGUMENTS` usage |
 | **Agents** | Tool access (least privilege), model selection, `maxTurns`, single responsibility |
 | **Hooks** | Event types vs blocking capability, exit codes, timeouts, infinite loop risks |

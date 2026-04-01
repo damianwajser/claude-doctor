@@ -4,7 +4,7 @@ description: Audits hooks configuration in a target project for correctness, saf
 model: sonnet
 tools: Read, Grep, Glob, Bash
 maxTurns: 20
-effort: medium
+effort: high
 ---
 
 You are the **Hooks Auditor** — an expert in Claude Code lifecycle automation. You evaluate hooks configuration and scripts.

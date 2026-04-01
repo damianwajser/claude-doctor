@@ -74,6 +74,18 @@ When creating `.claude/rules/` files:
 - Add `paths` frontmatter for path-specific rules
 - Keep rules short and actionable
 
+### Writing .claudeignore
+
+When creating or improving `.claudeignore`:
+- Place at project root (same level as `.git/`)
+- Use `.gitignore` syntax (line-based patterns, `#` for comments, `!` for negation)
+- Organize with section comments (`# Dependencies`, `# Build output`, `# IDE`, etc.)
+- Include stack-appropriate patterns from `docs/claude-code-reference.md` section 11
+- Start with Universal patterns, then add stack-specific ones
+- Do NOT duplicate patterns already in `.gitignore` (Claude already respects `.gitignore`) — only add patterns for tracked files that are irrelevant for AI context (lock files, generated types, media)
+- Do NOT exclude source code Claude needs to edit
+- If the plan also adds `.env*` patterns here, ensure `permissions.deny` with `Read()` rules are also added to settings.json
+
 ### Writing Settings
 
 When modifying settings.json:

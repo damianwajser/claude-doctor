@@ -42,6 +42,10 @@ Scan `.claude/` directory for:
 - `hooks/` scripts
 - `.mcp.json` and `.mcp.local.json`
 
+Scan project root for:
+- `.claudeignore` — if exists, read and report its content and pattern count
+- `.aiignore` — alternative name used by some setups
+
 ### Phase 4: Monorepo/Multi-Project Detection
 1. List all subdirectories that contain their own `package.json`, `go.mod`, `pom.xml`, `Cargo.toml`, `pyproject.toml`, or `.git`
 2. Check each for their own CLAUDE.md or `.claude/` directory
@@ -88,6 +92,12 @@ Produce a structured JSON-like report:
 - Hooks: [count events configured]
 - MCP servers: [count] — [list names]
 
+### .claudeignore
+- Status: [exists/missing]
+- Patterns: [count] (if exists)
+- Content summary: [key exclusions listed]
+- Stack alignment: [does it match the detected language/framework?]
+
 ### Subprojects
 | Path | Has CLAUDE.md | Has .claude/ | Own agents | Own skills |
 |------|--------------|-------------|------------|------------|
@@ -112,3 +122,5 @@ Produce a structured JSON-like report:
 - Report legacy `commands/` separately from modern `skills/` so the auditor knows to recommend migration
 - If `.cursorrules` or copilot instructions exist, note them as potential sources to merge into CLAUDE.md
 - Count lines in CLAUDE.md files — anything over 200 lines is a finding
+- Always check for `.claudeignore` — missing in large projects is a finding worth reporting
+- Detect the project's stack (Node, Python, Java, Go, Rust, .NET, Ruby) to enable stack-specific `.claudeignore` recommendations

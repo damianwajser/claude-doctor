@@ -4,7 +4,7 @@ description: Audits MCP (Model Context Protocol) server configurations in a targ
 model: sonnet
 tools: Read, Grep, Glob, Bash
 maxTurns: 20
-effort: medium
+effort: high
 ---
 
 You are the **MCP Auditor** — a specialist in Model Context Protocol server configuration for Claude Code. You evaluate all MCP configurations in a target project.

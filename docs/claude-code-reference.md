@@ -308,3 +308,196 @@ Edit(/src/**/*.ts)  — edit TypeScript in src/
 - [ ] No overly permissive rules (`Bash(*)` with no deny)
 - [ ] MCP tools have appropriate allow/deny
 - [ ] Agent tool restricted to known agent types where needed
+
+---
+
+## 11. .claudeignore (Context Optimization)
+
+### What It Is
+A `.claudeignore` file in the project root that tells Claude Code which files to skip during automatic context gathering. Uses `.gitignore` syntax. It reduces token consumption and improves response quality by focusing Claude on relevant source files.
+
+### Key Behavior
+- **Syntax**: Identical to `.gitignore` — line-based patterns with glob support
+- **Location**: Project root (same level as `.git/`)
+- **Scope**: Prevents files from being pulled into context during exploration, Grep, Glob, and LS operations
+- **NOT a security mechanism**: Claude can still explicitly read ignored files if asked. For security, use `permissions.deny` rules with `Read()` patterns
+- **Complements `.gitignore`**: Claude already respects `.gitignore`, but `.claudeignore` handles files that are tracked by git but irrelevant for AI context (lock files, generated code, media assets)
+
+### Defense in Depth
+For sensitive files, use BOTH mechanisms:
+```
+# .claudeignore — reduces token waste
+.env*
+credentials/
+
+# settings.json — enforces access control
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env*)",
+      "Read(**/credentials/**)"
+    ]
+  }
+}
+```
+
+### Stack-Specific Recommended Patterns
+
+**Universal (all projects)**
+```
+# Version control
+.git/
+
+# Environment & secrets
+.env
+.env.*
+.env.local
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Media & binaries (not useful for code analysis)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.mp4
+*.mp3
+*.woff
+*.woff2
+*.ttf
+*.eot
+*.pdf
+```
+
+**Node.js / JavaScript / TypeScript**
+```
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+.nyc_output/
+*.min.js
+*.min.css
+*.tsbuildinfo
+.turbo/
+.cache/
+.parcel-cache/
+.pnp/
+.pnp.js
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+```
+
+**Python**
+```
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+.eggs/
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+poetry.lock
+Pipfile.lock
+```
+
+**Java / Kotlin / Scala**
+```
+target/
+build/
+.gradle/
+*.class
+*.jar
+*.war
+*.ear
+gradle.lockfile
+.idea/
+*.iml
+```
+
+**Go**
+```
+vendor/
+go.sum
+```
+
+**Rust**
+```
+target/
+Cargo.lock
+```
+
+**.NET / C#**
+```
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+packages/
+*.nupkg
+```
+
+**Ruby**
+```
+vendor/bundle/
+.bundle/
+Gemfile.lock
+coverage/
+tmp/
+```
+
+**Docker / Infrastructure**
+```
+.terraform/
+*.tfstate*
+.pulumi/
+```
+
+### Quality Checklist
+- [ ] `.claudeignore` exists in project root
+- [ ] Includes dependency directories for the detected stack (`node_modules/`, `__pycache__/`, `vendor/`, etc.)
+- [ ] Includes build output directories (`dist/`, `build/`, `target/`, etc.)
+- [ ] Includes lock files that are large but not useful for code analysis
+- [ ] Includes binary/media files that Claude cannot meaningfully analyze
+- [ ] Does NOT exclude source code that Claude needs to edit
+- [ ] Does NOT exclude configuration files relevant to the project structure
+- [ ] If `.env` files need protection, `permissions.deny` rules with `Read()` patterns also exist in settings.json
+- [ ] Patterns are specific enough (not over-broad like `*` or `*/`)
+
+### Common Anti-Patterns
+- Using `.claudeignore` as a security mechanism for secrets (use `permissions.deny` instead)
+- Excluding source code directories needed for the current task
+- Not having one at all in large projects (causes significant token waste)
+- Duplicating all `.gitignore` entries (Claude already respects `.gitignore`)
+- Not updating after adding new frameworks (e.g., adding Next.js but not excluding `.next/`)
+
+### Token Impact Reference
+| Exclusion | Typical savings |
+|-----------|----------------|
+| `node_modules/` | Prevents indexing of thousands of dependency files |
+| `.next/` | 30–40% context reduction in Next.js projects |
+| Lock files (`*.lock`, `package-lock.json`) | Saves 10K–100K+ tokens per file |
+| Media assets (`*.png`, `*.jpg`, etc.) | Prevents binary confusion and wasted reads |
+| Build output (`dist/`, `target/`) | Avoids duplicating analyzed source code |

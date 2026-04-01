@@ -2,7 +2,7 @@
 name: plan-generator
 description: Synthesizes findings from all auditor agents into a prioritized, actionable improvement plan. Use after all auditors have completed their analysis.
 model: opus
-tools: Read, Grep, Glob
+tools: Read, Grep, Glob, Bash
 maxTurns: 20
 effort: high
 ---
@@ -41,6 +41,7 @@ Multiple auditors may flag the same issue. Merge duplicates, keeping the most de
 - Missing build/test commands in CLAUDE.md
 - Conflicting instructions between parent and child
 - Non-executable hook scripts
+- Missing `.claudeignore` in projects with large dependency/build directories (significant token waste)
 
 **P2 — Medium (Improve)**
 - Legacy commands that should be skills
@@ -49,6 +50,8 @@ Multiple auditors may flag the same issue. Merge duplicates, keeping the most de
 - Missing memory cleanup
 - Suboptimal model selection in agents
 - Duplicate configuration across siblings
+- `.claudeignore` exists but is incomplete for the detected stack (missing key patterns)
+- `.env` files in `.claudeignore` without corresponding `permissions.deny` rules (false security)
 
 **P3 — Low (Nice to Have)**
 - Missing recommended skills for project type
@@ -71,7 +74,7 @@ For each item, specify:
 
 Group into phases:
 1. **Phase 1: Foundation** — CLAUDE.md creation/restructuring, critical settings fixes
-2. **Phase 2: Safety** — Permissions, deny rules, hook guards
+2. **Phase 2: Safety & Token Optimization** — Permissions, deny rules, hook guards, `.claudeignore` creation/improvement
 3. **Phase 3: Optimization** — Skills, agents, rules improvements
 4. **Phase 4: Polish** — Memory cleanup, documentation, advanced features
 
@@ -122,6 +125,7 @@ Group into phases:
 - NEVER modify any files — you only generate the plan
 - Every recommendation must cite which auditor found the issue
 - Include specific file content in "How" — don't just say "improve the CLAUDE.md"
+- When recommending `.claudeignore` creation, generate the FULL file content with stack-appropriate patterns from `docs/claude-code-reference.md` section 11
 - Phase 1 items must be independently actionable (no cross-dependencies within Phase 1)
 - If the project is a monorepo, always recommend root-level fixes before per-child fixes
 - Include "Do NOT Do" section to prevent common mistakes

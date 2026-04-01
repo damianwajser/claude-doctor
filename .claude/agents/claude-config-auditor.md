@@ -75,7 +75,33 @@ For each file in `.claude/rules/`:
 - Are subproject-specific details in subproject CLAUDE.md files (not root)?
 - Are path-specific rules used to scope instructions?
 
-### 5. Memory Audit
+### 5. .claudeignore Audit
+
+Check `.claudeignore` in the project root. Reference `docs/claude-code-reference.md` section 11 for stack-specific patterns.
+
+**Existence**
+- Does `.claudeignore` exist? (WARNING if missing in projects with >20 files)
+- Is it at the project root (same level as `.git/`)?
+
+**Stack Alignment**
+Based on the detected stack (from `package.json`, `pyproject.toml`, `pom.xml`, `go.mod`, `Cargo.toml`, `*.csproj`, `Gemfile`, etc.), check:
+- Are dependency directories excluded? (`node_modules/`, `__pycache__/`, `vendor/`, etc.)
+- Are build output directories excluded? (`dist/`, `build/`, `target/`, `.next/`, etc.)
+- Are lock files excluded? (`package-lock.json`, `poetry.lock`, `Cargo.lock`, etc.)
+- Are binary/media files excluded? (`*.png`, `*.jpg`, `*.woff`, etc.)
+
+**Security Complement**
+- If `.env*` patterns are in `.claudeignore`, check that `permissions.deny` with `Read(**/.env*)` also exists in settings.json (`.claudeignore` is NOT a security mechanism)
+- If `credentials/` or similar sensitive dirs are ignored, same check for deny rules
+
+**Over-exclusion**
+- Are any source code directories incorrectly excluded?
+- Are configuration files needed for project understanding excluded?
+
+**Staleness**
+- If `.claudeignore` mentions framework-specific dirs (e.g., `.next/`) but the project doesn't use that framework, flag as stale
+
+### 6. Memory Audit
 
 If auto memory exists:
 - Is MEMORY.md under 200 lines?
@@ -117,6 +143,10 @@ If auto memory exists:
 
 ### Inheritance Audit
 #### Critical Issues
+#### Warnings
+#### Suggestions
+
+### .claudeignore Audit
 #### Warnings
 #### Suggestions
 
